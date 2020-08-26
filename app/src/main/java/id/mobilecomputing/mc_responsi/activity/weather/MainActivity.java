@@ -9,15 +9,21 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -27,6 +33,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +42,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.mobilecomputing.mc_responsi.R;
+import id.mobilecomputing.mc_responsi.activity.auth.LoginActivity;
 import id.mobilecomputing.mc_responsi.adapter.CityWeatherAdapter;
 import id.mobilecomputing.mc_responsi.helper.GPSTracker;
 import id.mobilecomputing.mc_responsi.helper.ItemTouchHelperCallback;
@@ -58,23 +67,53 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.fab_addCity) FloatingActionButton fab_addCity;
     private APIInterface apiInterface;
     private MaterialTapTargetPrompt mFabPrompt;
+    private static final String LAYOUT_MANAGER_STATE = "LAYOUT_MANAGER_STATE";
+    private Parcelable mLayoutManagerState;
+    private Parcelable recyclerViewState;
+    private final String LIST_STATE_KEY = "recycler_state";
+    private final String RECVIEW_DATA_ID = "data_id";
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener fireAuthListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();
+        Toolbar toolbar = findViewById(R.id.toolbar);
         ButterKnife.bind(this);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        fireAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user1 = firebaseAuth.getCurrentUser();
+
+                if (user1 == null){
+                    MainActivity.this.startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
+            }
+        };
+
 
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         checkLocationPermission();
 
+        if(savedInstanceState != null){
+            mLayoutManagerState = savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE);
+            recyclerView.getLayoutManager().onRestoreInstanceState(mLayoutManagerState);
+        }
         cities = getCities();
         if(cities.size() == 0){
             showFabPrompt();
         }
 
         apiInterface = APIClient.getApi().create(APIInterface.class);
+
+
 
         layoutManager = new LinearLayoutManager(this);
         adapter = new CityWeatherAdapter(cities, R.layout.weather_list, this, new CityWeatherAdapter.OnItemClickListener() {
@@ -136,6 +175,24 @@ public class MainActivity extends AppCompatActivity {
             return (res == PackageManager.PERMISSION_GRANTED);
         }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d("WORK FFS","Oncreaoptionsmenu called");
+        getMenuInflater().inflate(R.menu.account_menu_options,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d("WORK FFS","onOptionItem called");
+        switch (item.getItemId()){
+            case R.id.menu_acc_signout:
+                firebaseAuth.signOut();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public void showFabPrompt()
     {
@@ -288,4 +345,30 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putParcelable(LAYOUT_MANAGER_STATE, mLayoutManagerState);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mLayoutManagerState = recyclerView.getLayoutManager().onSaveInstanceState();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(fireAuthListener != null){
+            firebaseAuth.removeAuthStateListener(fireAuthListener);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(fireAuthListener);
+    }
 }

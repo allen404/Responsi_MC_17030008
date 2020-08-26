@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.weather.MainActivity">
+    tools:context=".activity.weather.MainActivity"
+    >
+
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
@@ -13,13 +16,29 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_weathercards"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"/>
 
+
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_addCity"
