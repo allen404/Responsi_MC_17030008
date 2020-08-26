@@ -112,9 +112,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         apiInterface = APIClient.getApi().create(APIInterface.class);
+        initUI();
 
+    }
 
-
+    private void initUI() {
         layoutManager = new LinearLayoutManager(this);
         adapter = new CityWeatherAdapter(cities, R.layout.weather_list, this, new CityWeatherAdapter.OnItemClickListener() {
             @Override
@@ -168,7 +170,8 @@ public class MainActivity extends AppCompatActivity {
         mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-        public boolean checkLocationPermission()
+
+    public boolean checkLocationPermission()
         {
             String permission = "android.permission.ACCESS_FINE_LOCATION";
             int res = this.checkCallingOrSelfPermission(permission);

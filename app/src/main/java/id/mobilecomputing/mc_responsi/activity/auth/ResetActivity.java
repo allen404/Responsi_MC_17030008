@@ -39,7 +39,7 @@ public class ResetActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String userEmail = edt_reset_email.getText().toString().trim();
                 if (TextUtils.isEmpty(userEmail)) {
-                    Toast.makeText(ResetActivity.this, "Enter your register email id", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ResetActivity.this, "Masukkan email yang digunakan", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -50,9 +50,9 @@ public class ResetActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(ResetActivity.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ResetActivity.this, "Instruksi reset password sudah dikirim ke email", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(ResetActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ResetActivity.this, "Gagal dalam mengirim email", Toast.LENGTH_SHORT).show();
                                 }
 
                                 progbar_reset.setVisibility(View.GONE);

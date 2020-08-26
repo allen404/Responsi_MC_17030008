@@ -70,17 +70,17 @@ public class RegisterActivity extends AppCompatActivity {
         String userPassword = edt_register_password.getText().toString().trim();
 
         if (TextUtils.isEmpty(userEmail)) {
-            showToast("Enter email address!");
+            showToast("Masukkan alamat email");
             return;
         }
 
         if(TextUtils.isEmpty(userPassword)){
-            showToast("Enter Password!");
+            showToast("Masukkan password");
             return;
         }
 
         if(userPassword.length() < 6){
-            showToast("Password too short, enter minimum 6 characters");
+            showToast("Password terlalu pendek, minimal 6 karakter");
             return;
         }
 
@@ -91,10 +91,10 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "New user registration: " + task.isSuccessful());
+                        Log.d(TAG, "Registrasi user baru berhasil: " + task.isSuccessful());
 
                         if (!task.isSuccessful()) {
-                            RegisterActivity.this.showToast("Authentication failed. " + task.getException());
+                            RegisterActivity.this.showToast("Otentikasi Gagal " + task.getException());
                         } else {
                             RegisterActivity.this.startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                             RegisterActivity.this.finish();
