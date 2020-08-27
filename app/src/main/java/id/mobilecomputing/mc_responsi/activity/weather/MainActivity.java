@@ -388,4 +388,20 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         firebaseAuth.addAuthStateListener(fireAuthListener);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case 1:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    return;
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "Izin Lokasi Ditolak", Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 }
