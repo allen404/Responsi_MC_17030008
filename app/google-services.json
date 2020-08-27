@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "943292318642",
+    "firebase_url": "https://mc-fusion.firebaseio.com",
+    "project_id": "mc-fusion",
+    "storage_bucket": "mc-fusion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943292318642:android:0965611ad5ee105e505aab",
+        "android_client_info": {
+          "package_name": "com.DecravMNR.StockingApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943292318642-ia86bfrj9c71ct19471mlqmb8hlu98hp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4-ke8DBYpJgV8Gvgj1E5NiwDbgdztMh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943292318642-ia86bfrj9c71ct19471mlqmb8hlu98hp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943292318642:android:16bebae2a90b9953505aab",
+        "android_client_info": {
+          "package_name": "id.mobilecomputing.mc_responsi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943292318642-ia86bfrj9c71ct19471mlqmb8hlu98hp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4-ke8DBYpJgV8Gvgj1E5NiwDbgdztMh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943292318642-ia86bfrj9c71ct19471mlqmb8hlu98hp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943292318642:android:79e1b21b865815ba505aab",
+        "android_client_info": {
+          "package_name": "id.praktikummobilecomputing.mc_fusion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943292318642-lf8vqu3bjnhpiuuuad556mhu9pbdu2u7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.praktikummobilecomputing.mc_fusion",
+            "certificate_hash": "54c4345dc88025996caf52ba759d4b8b07ae1c21"
+          }
+        },
+        {
+          "client_id": "943292318642-ia86bfrj9c71ct19471mlqmb8hlu98hp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4-ke8DBYpJgV8Gvgj1E5NiwDbgdztMh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943292318642-ia86bfrj9c71ct19471mlqmb8hlu98hp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

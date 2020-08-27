@@ -69,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
     private MaterialTapTargetPrompt mFabPrompt;
     private static final String LAYOUT_MANAGER_STATE = "LAYOUT_MANAGER_STATE";
     private Parcelable mLayoutManagerState;
-    private Parcelable recyclerViewState;
-    private final String LIST_STATE_KEY = "recycler_state";
-    private final String RECVIEW_DATA_ID = "data_id";
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener fireAuthListener;
@@ -80,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
         ButterKnife.bind(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -98,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         checkLocationPermission();
 
         if(savedInstanceState != null){
@@ -113,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
 
         apiInterface = APIClient.getApi().create(APIInterface.class);
         initUI();
-
     }
 
     private void initUI() {
@@ -170,13 +163,34 @@ public class MainActivity extends AppCompatActivity {
         mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-
-    public boolean checkLocationPermission()
+    public void checkLocationPermission()
         {
-            String permission = "android.permission.ACCESS_FINE_LOCATION";
-            int res = this.checkCallingOrSelfPermission(permission);
-            return (res == PackageManager.PERMISSION_GRANTED);
+            int hasFineAccessLocationPermission =checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+            if (hasFineAccessLocationPermission != PackageManager.PERMISSION_GRANTED){
+                if(!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)){
+                    showMessageOKCancel("Izin akses lokasi diperlukan untuk opsi deteksi lokasi otomatis",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}
+                                    ,1);
+                                }
+                            });
+                    return;
+                }
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+                return;
+            }
         }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener){
+        new AlertDialog.Builder(MainActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK",okListener)
+                .setNegativeButton("Cancel",null)
+                .create()
+                .show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

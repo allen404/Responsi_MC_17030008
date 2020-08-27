@@ -1,10 +1,12 @@
 package id.mobilecomputing.mc_responsi.helper;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -14,13 +16,18 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+
+import id.mobilecomputing.mc_responsi.activity.weather.MainActivity;
 
 public class GPSTracker extends Service implements LocationListener {
 
@@ -64,19 +71,28 @@ public class GPSTracker extends Service implements LocationListener {
                 Log.d(TAG,"Application use network state to get GPS");
                 provider_info = LocationManager.NETWORK_PROVIDER;
             }
-            if (!provider_info.isEmpty()){
-                locationManager.requestLocationUpdates(
-                        provider_info,
-                        MIN_TIME_BW_UPDATES,
-                        MIN_DISTANCE_CHANGE_FOR_UPDATES,
-                        this
-                );
 
-                if(locationManager != null){
-                    location = locationManager.getLastKnownLocation(provider_info);
-                    updateGPSCoordinate();
+            try {
+                if (!provider_info.isEmpty()){
+                    locationManager.requestLocationUpdates(
+                            provider_info,
+                            MIN_TIME_BW_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES,
+                            this
+                    );
+
+                    if(locationManager != null){
+                        location = locationManager.getLastKnownLocation(provider_info);
+                        updateGPSCoordinate();
+                    }
                 }
+
             }
+            catch (SecurityException e)
+            {
+                Toast.makeText(mContext, "Izinkan akses lokasi", Toast.LENGTH_LONG).show();
+            }
+
         }
         catch (Exception e)
         {
