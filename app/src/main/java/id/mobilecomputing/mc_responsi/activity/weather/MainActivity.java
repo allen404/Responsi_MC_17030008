@@ -194,14 +194,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d("WORK FFS","Oncreaoptionsmenu called");
         getMenuInflater().inflate(R.menu.account_menu_options,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d("WORK FFS","onOptionItem called");
         switch (item.getItemId()){
             case R.id.menu_acc_signout:
                 firebaseAuth.signOut();

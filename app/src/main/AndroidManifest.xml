@@ -22,13 +22,7 @@
         </activity>
         <activity android:name=".activity.auth.ResetActivity" />
         <activity android:name=".activity.auth.RegisterActivity" />
-        <activity android:name=".activity.auth.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.auth.LoginActivity"/>
         <activity android:name=".activity.weather.DetailActivity" />
         <activity android:name=".activity.weather.MainActivity" />
     </application>
